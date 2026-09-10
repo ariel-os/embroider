@@ -1,0 +1,17 @@
+[package]
+name = "embroider"
+version = "0.1.0"
+edition = "2024"
+description = "Signs SUIT manifest envelopes (COSE_Sign1, ES256/ES384) produced by taylor or any spec-conformant SUIT CBOR encoder"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = ["suit", "cose", "cbor", "signing", "firmware"]
+categories = ["cryptography", "embedded"]
+
+[dependencies]
+ciborium = "0.2.2"
+hex = "0.4.3"
+p256 = { version = "0.13", features = ["ecdsa", "pem"] }
+p384 = { version = "0.13", features = ["ecdsa", "pem"] }
+signature = "2.2"
+elliptic-curve = { version = "0.13", features = ["pem"] }
