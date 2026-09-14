@@ -50,9 +50,4 @@ xxd signed.cbor | head
 
 ## Copyright & License
 
-embroider is licensed under either of
-
-- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
-- MIT license ([LICENSE-MIT](LICENSE-MIT))
-
-at your option.
+embroider is licensed under MIT license ([LICENSE](LICENSE))
