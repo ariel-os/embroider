@@ -1,7 +1,7 @@
 # embroider (SUIT Manifest Signer)
 
 Signs a SUIT_Envelope CBOR file (as produced by
-[taylor](https://github.com/schnitzm/taylor) or any spec-conformant SUIT encoder) by adding
+[taylor](https://github.com/ariel-os/taylor) or any spec-conformant SUIT encoder) by adding
 a `COSE_Sign1` authentication block over its existing digest.
 
 Supports ECDSA ES256 (NIST P-256) and ES384 (NIST P-384).
