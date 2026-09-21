@@ -8,6 +8,7 @@ use embroider::{Algorithm, Error, Signer};
 const USAGE: &str = "usage: embroider --input <envelope.cbor> --output <signed.cbor> \
 --alg <es256|es384> (--key <key.pem> | --key-hex <hex-scalar>)";
 
+/// Parsed CLI arguments for a single signing invocation.
 struct Args {
     input: String,
     output: String,
@@ -16,6 +17,7 @@ struct Args {
     key_hex: Option<String>,
 }
 
+/// Parses `std::env::args()` into [`Args`], returning a human-readable error on bad usage.
 fn parse_args() -> Result<Args, String> {
     let mut input = None;
     let mut output = None;
@@ -53,6 +55,7 @@ fn parse_args() -> Result<Args, String> {
     })
 }
 
+/// Loads the `Signer` requested by `args`, from either a PEM file or a raw hex scalar.
 fn load_signer(args: &Args) -> Result<Signer, Error> {
     match (&args.key_pem_path, &args.key_hex) {
         (Some(path), None) => {
@@ -71,6 +74,7 @@ fn load_signer(args: &Args) -> Result<Signer, Error> {
     }
 }
 
+/// Loads the key and input envelope, signs it, and writes the result to `args.output`.
 fn run(args: &Args) -> Result<(), Error> {
     let signer = load_signer(args)?;
     let envelope_bytes = fs::read(&args.input)?;

@@ -8,8 +8,7 @@ Supports ECDSA ES256 (NIST P-256) and ES384 (NIST P-384).
 
 ## Status
 
-Implemented and tested — see [docs/PLAN.md](docs/PLAN.md) for the full design and
-remaining follow-up ideas.
+Implemented and tested — see [docs/DESIGN.md](docs/DESIGN.md) for the full design.
 
 ## Usage
 
