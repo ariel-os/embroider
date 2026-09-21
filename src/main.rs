@@ -1,18 +1,14 @@
-//! embroider: signs a `SUIT_Envelope`'s authentication wrapper with ECDSA (ES256/ES384).
-
-mod cose;
-mod envelope;
-mod error;
-mod keys;
+//! embroider: CLI front-end for the `embroider` library, signing a `SUIT_Envelope`'s
+//! authentication wrapper with ECDSA (ES256/ES384).
 
 use std::{fs, process::ExitCode};
 
-use error::Error;
-use keys::{Algorithm, Signer};
+use embroider::{Algorithm, Error, Signer};
 
 const USAGE: &str = "usage: embroider --input <envelope.cbor> --output <signed.cbor> \
 --alg <es256|es384> (--key <key.pem> | --key-hex <hex-scalar>)";
 
+/// Parsed CLI arguments for a single signing invocation.
 struct Args {
     input: String,
     output: String,
@@ -21,6 +17,7 @@ struct Args {
     key_hex: Option<String>,
 }
 
+/// Parses `std::env::args()` into [`Args`], returning a human-readable error on bad usage.
 fn parse_args() -> Result<Args, String> {
     let mut input = None;
     let mut output = None;
@@ -58,6 +55,7 @@ fn parse_args() -> Result<Args, String> {
     })
 }
 
+/// Loads the `Signer` requested by `args`, from either a PEM file or a raw hex scalar.
 fn load_signer(args: &Args) -> Result<Signer, Error> {
     match (&args.key_pem_path, &args.key_hex) {
         (Some(path), None) => {
@@ -76,16 +74,11 @@ fn load_signer(args: &Args) -> Result<Signer, Error> {
     }
 }
 
+/// Loads the key and input envelope, signs it, and writes the result to `args.output`.
 fn run(args: &Args) -> Result<(), Error> {
     let signer = load_signer(args)?;
     let envelope_bytes = fs::read(&args.input)?;
-
-    let auth_array_bytes = envelope::extract_authentication(&envelope_bytes)?;
-    let digest_bstr = envelope::digest_from_authentication(&auth_array_bytes)?;
-    let auth_block = cose::sign_digest(&digest_bstr, &signer)?;
-    let new_auth_array_bytes = envelope::append_authentication_block(&auth_array_bytes, &auth_block)?;
-    let signed_envelope = envelope::replace_authentication(&envelope_bytes, &new_auth_array_bytes)?;
-
+    let signed_envelope = embroider::sign_envelope(&envelope_bytes, &signer)?;
     fs::write(&args.output, signed_envelope)?;
     Ok(())
 }

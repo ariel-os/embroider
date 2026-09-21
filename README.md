@@ -8,8 +8,7 @@ Supports ECDSA ES256 (NIST P-256) and ES384 (NIST P-384).
 
 ## Status
 
-Implemented and tested — see [docs/PLAN.md](docs/PLAN.md) for the full design and
-remaining follow-up ideas.
+Implemented and tested — see [docs/DESIGN.md](docs/DESIGN.md) for the full design.
 
 ## Usage
 
@@ -19,6 +18,23 @@ cargo run -- --input envelope.cbor --output signed.cbor --alg es256 --key privat
 
 `--alg` accepts `es256` or `es384`. The private key can be supplied either as a PEM file
 via `--key <path>` (PKCS8 or SEC1) or as raw scalar bytes in hex via `--key-hex <hex>`.
+
+## Library usage
+
+`embroider` is also a library, so it can be used as a dependency by other Rust projects
+instead of shelling out to the CLI:
+
+```rust
+use embroider::{Algorithm, Signer};
+
+let signer = Signer::from_pem(pem_str, Algorithm::Es256)?;
+let signed_envelope = embroider::sign_envelope(&envelope_bytes, &signer)?;
+```
+
+`sign_envelope` is the high-level entry point: it extracts the existing `SUIT_Digest`,
+signs it, and appends a `COSE_Sign1_Tagged` authentication block. The `cose`, `envelope`,
+and `keys` modules are also public for callers that need finer-grained control over
+individual steps of the pipeline.
 
 ## Testing
 
