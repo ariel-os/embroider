@@ -8,6 +8,7 @@ readme = "README.md"
 repository = "https://github.com/ariel-os/brody"
 keywords = ["suit", "cose", "cbor", "signing", "firmware"]
 categories = ["cryptography", "embedded"]
+exclude = ["assets"]
 
 # Published under the "brody" crate name (the plain "brody" name was taken on
 # crates.io); the Rust crate/module name and CLI binary name stay "brody".
