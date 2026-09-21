@@ -1,4 +1,4 @@
-# embroider (SUIT Manifest Signer)
+# brody (SUIT Manifest Signer)
 
 Signs a SUIT_Envelope CBOR file (as produced by
 [taylor](https://github.com/ariel-os/taylor) or any spec-conformant SUIT encoder) by adding
@@ -21,14 +21,14 @@ via `--key <path>` (PKCS8 or SEC1) or as raw scalar bytes in hex via `--key-hex 
 
 ## Library usage
 
-`embroider` is also a library, so it can be used as a dependency by other Rust projects
+`brody` is also a library, so it can be used as a dependency by other Rust projects
 instead of shelling out to the CLI:
 
 ```rust
-use embroider::{Algorithm, Signer};
+use brody::{Algorithm, Signer};
 
 let signer = Signer::from_pem(pem_str, Algorithm::Es256)?;
-let signed_envelope = embroider::sign_envelope(&envelope_bytes, &signer)?;
+let signed_envelope = brody::sign_envelope(&envelope_bytes, &signer)?;
 ```
 
 `sign_envelope` is the high-level entry point: it extracts the existing `SUIT_Digest`,

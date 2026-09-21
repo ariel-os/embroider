@@ -1,6 +1,6 @@
-# embroider design
+# brody design
 
-`embroider` signs an existing `SUIT_Envelope` CBOR file by appending a `COSE_Sign1`
+`brody` signs an existing `SUIT_Envelope` CBOR file by appending a `COSE_Sign1`
 authentication block over its `SUIT_Digest`. It ships as both a library crate and a CLI
 binary built on top of it.
 
@@ -19,7 +19,7 @@ flowchart LR
 
 | Module | Responsibility |
 | --- | --- |
-| `main.rs` | CLI-only: argument parsing, key/file loading, calls `embroider::sign_envelope` |
+| `main.rs` | CLI-only: argument parsing, key/file loading, calls `brody::sign_envelope` |
 | `lib.rs` | Public library surface; `sign_envelope` orchestrates the pipeline below |
 | `envelope` | Decodes/patches the top-level `SUIT_Envelope` CBOR map and `SUIT_Authentication` array |
 | `cose` | Hand-rolled `COSE_Sign1` construction (`Sig_structure`, protected header, tagging) |
@@ -37,9 +37,9 @@ with:
 - key `2` (`suit-authentication-wrapper`): a `bstr .cbor SUIT_Authentication`, i.e. an
   array whose first element is the `SUIT_Digest` bstr, followed by zero or more
   `COSE_Sign1_Tagged`/`COSE_Mac0_Tagged` blocks.
-- key `3` (`suit-manifest`): opaque bytes, left untouched by embroider.
+- key `3` (`suit-manifest`): opaque bytes, left untouched by brody.
 
-Signing is **append-only**: embroider never removes or replaces an existing signature
+Signing is **append-only**: brody never removes or replaces an existing signature
 block, it only extracts the digest (element `0`) and pushes a new signed block onto the
 array. Re-signing/replacing an existing block is not supported.
 

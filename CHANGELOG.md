@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `embroider` are documented in this file.
+All notable changes to `brody` are documented in this file.
 
 ## [Unreleased]
 
@@ -10,6 +10,8 @@ All notable changes to `embroider` are documented in this file.
   `COSE_Sign1` pipeline, key handling, error model, and deliberate non-goals.
 - Doc comments for previously undocumented items in `src/main.rs` (`Args`, `parse_args`,
   `load_signer`, `run`).
+- `repository` field in `Cargo.toml`, required for crates.io publishing.
+- Change package name to `brody`
 
 ### Fixed
 

@@ -1,11 +1,11 @@
-//! embroider: CLI front-end for the `embroider` library, signing a `SUIT_Envelope`'s
+//! brody: CLI front-end for the `brody` library, signing a `SUIT_Envelope`'s
 //! authentication wrapper with ECDSA (ES256/ES384).
 
 use std::{fs, process::ExitCode};
 
-use embroider::{Algorithm, Error, Signer};
+use brody::{Algorithm, Error, Signer};
 
-const USAGE: &str = "usage: embroider --input <envelope.cbor> --output <signed.cbor> \
+const USAGE: &str = "usage: brody --input <envelope.cbor> --output <signed.cbor> \
 --alg <es256|es384> (--key <key.pem> | --key-hex <hex-scalar>)";
 
 /// Parsed CLI arguments for a single signing invocation.
@@ -78,7 +78,7 @@ fn load_signer(args: &Args) -> Result<Signer, Error> {
 fn run(args: &Args) -> Result<(), Error> {
     let signer = load_signer(args)?;
     let envelope_bytes = fs::read(&args.input)?;
-    let signed_envelope = embroider::sign_envelope(&envelope_bytes, &signer)?;
+    let signed_envelope = brody::sign_envelope(&envelope_bytes, &signer)?;
     fs::write(&args.output, signed_envelope)?;
     Ok(())
 }

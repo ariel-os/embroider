@@ -1,4 +1,4 @@
-//! End-to-end integration test: runs the compiled `embroider` binary against a synthetic
+//! End-to-end integration test: runs the compiled `brody` binary against a synthetic
 //! `SUIT_Envelope` and checks the signed output's structure.
 
 use std::{fs, process::Command};
@@ -19,7 +19,7 @@ fn temp_path(name: &str) -> std::path::PathBuf {
         .duration_since(std::time::UNIX_EPOCH)
         .unwrap()
         .as_nanos();
-    std::env::temp_dir().join(format!("embroider-cli-test-{}-{nanos}-{name}", std::process::id()))
+    std::env::temp_dir().join(format!("brody-cli-test-{}-{nanos}-{name}", std::process::id()))
 }
 
 /// Builds a minimal synthetic `SUIT_Envelope`: key 2 = bstr .cbor [digest bstr], key 3 = bstr.
@@ -49,7 +49,7 @@ fn signs_envelope_end_to_end() {
     fs::write(&input_path, &envelope_bytes).unwrap();
     fs::write(&key_path, ES256_PKCS8_PEM).unwrap();
 
-    let status = Command::new(env!("CARGO_BIN_EXE_embroider"))
+    let status = Command::new(env!("CARGO_BIN_EXE_brody"))
         .args([
             "--input",
             input_path.to_str().unwrap(),
@@ -61,7 +61,7 @@ fn signs_envelope_end_to_end() {
             key_path.to_str().unwrap(),
         ])
         .status()
-        .expect("failed to run embroider binary");
+        .expect("failed to run brody binary");
     assert!(status.success());
 
     let signed_bytes = fs::read(&output_path).unwrap();
@@ -112,9 +112,9 @@ fn signs_envelope_end_to_end() {
 
 #[test]
 fn rejects_missing_required_args() {
-    let status = Command::new(env!("CARGO_BIN_EXE_embroider"))
+    let status = Command::new(env!("CARGO_BIN_EXE_brody"))
         .args(["--input", "does-not-matter.cbor"])
         .status()
-        .expect("failed to run embroider binary");
+        .expect("failed to run brody binary");
     assert!(!status.success());
 }

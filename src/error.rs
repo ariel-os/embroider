@@ -1,4 +1,4 @@
-//! Error type for embroider's envelope parsing, key loading, and signing operations.
+//! Error type for brody's envelope parsing, key loading, and signing operations.
 
 use std::fmt;
 

@@ -1,4 +1,4 @@
-//! embroider: library for signing `SUIT_Envelope` CBOR manifests with a `COSE_Sign1`
+//! brody: library for signing `SUIT_Envelope` CBOR manifests with a `COSE_Sign1`
 //! authentication block (ES256/ES384), for use as a dependency by other Rust projects.
 //!
 //! For most use cases, [`sign_envelope`] is the only entry point needed. The `cose`,
